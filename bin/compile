@@ -7,6 +7,8 @@ set -e
 # debug
 # set -x
 
+exec 2>&1
+
 # clean up leaking environment
 unset GIT_DIR
 
@@ -62,9 +64,9 @@ function resolve_version() {
   requested_version="$2"
   default_version="$3"
 
-  echo "av[$available_versions]" >2
-  echo "rv[$requested_version]" >2
-  echo "dv[$default_version]" >2
+  echo "av[$available_versions]" >log/debug
+  echo "rv[$requested_version]" >log/debug
+  echo "dv[$default_version]" >log/debug
 
   if [ "$2" == "" ]; then
     echo $3
@@ -87,7 +89,7 @@ function package_resolve_version() {
   engine="$1"
   resolved_version=$(resolve_version "${engine_versions[$engine]}" "${engine_requests[$engine]}" "${engine_defaults[$engine]}")
 
-  echo "rrv[$resolved_version]" >2
+  echo "rrv[$resolved_version]" >log/debug
 
   if [ "${resolved_version}" == "" ]; then
     error "Requested engine $engine version ${engine_requests[$engine]} does not match available versions: ${engine_versions[$engine]}"
