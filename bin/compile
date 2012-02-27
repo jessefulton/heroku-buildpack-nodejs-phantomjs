@@ -62,6 +62,10 @@ function resolve_version() {
   requested_version="$2"
   default_version="$3"
 
+  echo "av[$available_versions]"
+  echo "rv[$requested_version]"
+  echo "dv[$default_version]"
+
   if [ "$2" == "" ]; then
     echo $3
   else
