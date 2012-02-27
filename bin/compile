@@ -62,9 +62,9 @@ function resolve_version() {
   requested_version="$2"
   default_version="$3"
 
-  echo "av[$available_versions]"
-  echo "rv[$requested_version]"
-  echo "dv[$default_version]"
+  echo "av[$available_versions]" >2
+  echo "rv[$requested_version]" >2
+  echo "dv[$default_version]" >2
 
   if [ "$2" == "" ]; then
     echo $3
@@ -86,6 +86,8 @@ function package_engine_version() {
 function package_resolve_version() {
   engine="$1"
   resolved_version=$(resolve_version "${engine_versions[$engine]}" "${engine_requests[$engine]}" "${engine_defaults[$engine]}")
+
+  echo "rrv[$resolved_version]" >2
 
   if [ "${resolved_version}" == "" ]; then
     error "Requested engine $engine version ${engine_requests[$engine]} does not match available versions: ${engine_versions[$engine]}"
