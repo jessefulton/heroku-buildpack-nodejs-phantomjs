@@ -19,6 +19,37 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
+
+
+
+
+# config
+PJS_VERSION="1.4.1"
+PJS_S3_BUCKET="stomita-buildpack-phantomjs"
+
+# s3 packages
+PJS_FILE_NAME="buildpack-phantomjs-${PJS_VERSION}.tar.gz"
+BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/${PJS_FILE_NAME}"
+
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/PJS_$FILE_NAME ]; then
+  echo "-----> Fetching PhantomJS buildpack binaries"
+  curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $CACHE_DIR/PJS_$FILE_NAME
+fi
+
+echo "-----> Extracting PhantomJS binaries" 
+tar zxf $CACHE_DIR/PJS_$FILE_NAME -C $BUILD_DIR
+
+echo "-----> Fetching Scripts"
+mkdir -p $BUILD_DIR/bin
+curl https://raw.github.com/gist/1983913/phantomjs.sh -s -o $BUILD_DIR/bin/phantomjs.sh
+chmod 755 $BUILD_DIR/bin/phantomjs.sh
+curl https://raw.github.com/gist/1983751/phantomexec.sh -s -o $BUILD_DIR/bin/phantomexec.sh
+chmod 755 $BUILD_DIR/bin/phantomexec.sh
+
+
+
+
 function error() {
   echo " !     $*"
   exit 1
