@@ -29,7 +29,7 @@ PJS_S3_BUCKET="stomita-buildpack-phantomjs"
 
 # s3 packages
 PJS_FILE_NAME="buildpack-phantomjs-${PJS_VERSION}.tar.gz"
-BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/${PJS_FILE_NAME}"
+BUILDPACK_PHANTOMJS_PACKAGE="http://${PJS_S3_BUCKET}.s3.amazonaws.com/${PJS_FILE_NAME}"
 
 mkdir -p $CACHE_DIR
 if ! [ -e $CACHE_DIR/PJS_$FILE_NAME ]; then
